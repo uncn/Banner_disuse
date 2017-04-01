@@ -1,6 +1,9 @@
 # Banner
 Banner is an open source Android library that allows developers to easily create an ad rotation effect widget like those made in Tmall，Taobao apps.
 
+### ScreenShot
+![sample](./screenshot/Demo.gif)
+
 ### Gradle
 ```groovy
 dependencies {

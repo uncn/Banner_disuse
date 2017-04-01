@@ -6,6 +6,6 @@ package com.sunzn.banner.library;
 
 public interface OnBannerItemClickListener {
 
-    void onClick(int position);
+    void onClick(int position, Object item);
 
 }

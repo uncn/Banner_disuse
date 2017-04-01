@@ -8,6 +8,6 @@ import android.support.v7.widget.AppCompatImageView;
 
 public interface OnBannerItemBindListener {
 
-    void onBind(int position, AppCompatImageView view);
+    void onBind(int position, Object item, AppCompatImageView view);
 
 }

@@ -242,7 +242,7 @@ public class Banner extends FrameLayout {
                 @Override
                 public void onClick(View v) {
                     if (mOnBannerItemClickListener != null)
-                        mOnBannerItemClickListener.onClick(mCurrentIndex % mData.size());
+                        mOnBannerItemClickListener.onClick(mCurrentIndex % mData.size(), mData.get(mCurrentIndex % mData.size()));
                 }
             });
             return new BannerViewHolder(imageView);
@@ -251,7 +251,7 @@ public class Banner extends FrameLayout {
         @Override
         public void onBindViewHolder(BannerViewHolder holder, int position) {
             if (mOnBannerItemBindListener != null)
-                mOnBannerItemBindListener.onBind(position % mData.size(), holder.mImageView);
+                mOnBannerItemBindListener.onBind(position % mData.size(), mData.get(position % mData.size()), holder.mImageView);
         }
 
         @Override

@@ -19,6 +19,20 @@ dependencies {
         app:indicator_miss="@drawable/svg_indicator_icon_miss" />
 ```
 
+| Attribute          | Describe           | Additional      |
+| ------------------ |:------------------:| ---------------:|
+| banner_inch        | right-aligned      |           $1600 |
+| banner_interval    | centered           |             $12 |
+| indicator_show     | are neat           |              $1 |
+| indicator_gain     | are neat           |              $1 |
+| indicator_miss     | are neat           |              $1 |
+| indicator_size     | are neat           |              $1 |
+| indicator_space    | are neat           |              $1 |
+| indicator_margin   | are neat           |              $1 |
+| indicator_gravity  | are neat           |              $1 |
+
+
+
 ### License
 ```
     Copyright [2017] sunzn

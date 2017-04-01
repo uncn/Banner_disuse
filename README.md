@@ -19,11 +19,11 @@ dependencies {
         app:indicator_miss="@drawable/svg_indicator_icon_miss" />
 ```
 
-| Attribute          | Describe                       | Additional                                   |
-| ------------------ | ------------------------------ | -------------------------------------------- |
-| banner_inch        | milliseconds per inch          | The greater the value, the slower the slide  |
-| banner_interval    | waiting time before next slide | The greater the value, the longer the wait   |
-| indicator_show     | are neat           |              $1 |
+| Attribute          | Describe                         | Additional                                   |
+| ------------------ | -------------------------------- | -------------------------------------------- |
+| banner_inch        | milliseconds per inch            | The greater the value, the slower the slide  |
+| banner_interval    | waiting time before next slide   | The greater the value, the longer the wait   |
+| indicator_show     | whether to display the indicator | True display, false not displayed            |
 | indicator_gain     | are neat           |              $1 |
 | indicator_miss     | are neat           |              $1 |
 | indicator_size     | are neat           |              $1 |

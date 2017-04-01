@@ -168,7 +168,8 @@ public class Banner extends FrameLayout {
     }
 
     private void createIndicators() {
-        if (mIsIndicatorShow) {
+        if (mIsIndicatorShow && mLinearLayout != null) {
+            mLinearLayout.removeAllViews();
             for (int i = 0; i < (mData == null ? 0 : mData.size()); i++) {
                 AppCompatImageView img = new AppCompatImageView(getContext());
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);

@@ -7,8 +7,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.sunzn.banner.library.Banner;
-import com.sunzn.banner.library.OnBannerItemClickListener;
 import com.sunzn.banner.library.OnBannerItemBindListener;
+import com.sunzn.banner.library.OnBannerItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,14 +34,14 @@ public class MainActivity extends AppCompatActivity {
         banner.setBannerData(packs);
         banner.setOnBannerItemBindListener(new OnBannerItemBindListener() {
             @Override
-            public void onBind(int position, AppCompatImageView view) {
+            public void onBind(int position, Object item, AppCompatImageView view) {
                 Glide.with(getApplicationContext()).load(packs.get(position).getUrl()).placeholder(R.mipmap.ic_launcher).into(view);
             }
         });
 
         banner.setOnBannerItemClickListener(new OnBannerItemClickListener() {
             @Override
-            public void onClick(int position) {
+            public void onClick(int position, Object item) {
                 Toast.makeText(MainActivity.this, "position = " + position, Toast.LENGTH_SHORT).show();
             }
         });

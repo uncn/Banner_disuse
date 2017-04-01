@@ -19,9 +19,9 @@ dependencies {
         app:indicator_miss="@drawable/svg_indicator_icon_miss" />
 ```
 
-| Attribute          | Describe           | Additional      |
-| ------------------ |:------------------:| ---------------:|
-| banner_inch        | right-aligned      |           $1600 |
+| Attribute          | Describe              | Additional                                   |
+| ------------------ | --------------------- | -------------------------------------------- |
+| banner_inch        | milliseconds per inch | The greater the value, the slower the slide  |
 | banner_interval    | centered           |             $12 |
 | indicator_show     | are neat           |              $1 |
 | indicator_gain     | are neat           |              $1 |

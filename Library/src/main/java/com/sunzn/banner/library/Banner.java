@@ -281,7 +281,7 @@ public class Banner extends FrameLayout {
     }
 
     public void playBanner() {
-        if (mHandler != null && !isPlaying && mBannerAdapter.getItemCount() > 2) {
+        if (mHandler != null && !isPlaying && mBannerAdapter.getItemCount() > 1) {
             mHandler.postDelayed(mBannerTask, mInterval);
             isPlaying = true;
         }

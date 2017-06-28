@@ -1,4 +1,9 @@
 # Banner
+
+[![](https://jitpack.io/v/ShortStickBoy/Banner.svg)](https://jitpack.io/#ShortStickBoy/Banner)
+[![](https://img.shields.io/badge/License-Apache%202.0-orange.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
+[![](https://img.shields.io/badge/Blog-sunzn-blue.svg)](http://www.sunzn.com/)
+
 Banner is an open source Android library that allows developers to easily create an ad rotation effect widget like those made in Tmall，Taobao apps.
 
 ### ScreenShot

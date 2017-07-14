@@ -56,9 +56,11 @@ public class Banner extends FrameLayout {
 
         @Override
         public void run() {
-            mRecyclerView.smoothScrollToPosition(++mCurrentIndex);
-            switchIndicator();
-            mHandler.postDelayed(this, mInterval);
+            if (isPlaying) {
+                mRecyclerView.smoothScrollToPosition(++mCurrentIndex);
+                switchIndicator();
+                mHandler.postDelayed(this, mInterval);
+            }
         }
 
     };
@@ -282,16 +284,16 @@ public class Banner extends FrameLayout {
 
     public void playBanner() {
         if (mHandler != null && !isPlaying && mBannerAdapter.getItemCount() > 1) {
+            isPlaying = true;
             mHandler.removeCallbacksAndMessages(null);
             mHandler.postDelayed(mBannerTask, mInterval);
-            isPlaying = true;
         }
     }
 
     public void stopBanner() {
         if (mHandler != null) {
-            mHandler.removeCallbacksAndMessages(null);
             isPlaying = false;
+            mHandler.removeCallbacksAndMessages(null);
         }
     }
 

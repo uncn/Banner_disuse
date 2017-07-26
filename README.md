@@ -12,7 +12,7 @@ Banner is an open source Android library that allows developers to easily create
 ### Gradle
 ```groovy
 dependencies {
-    compile 'com.github.ShortStickBoy:Banner:V1.0.4'
+    compile 'com.github.ShortStickBoy:Banner:V1.0.5'
 }
 ```
 

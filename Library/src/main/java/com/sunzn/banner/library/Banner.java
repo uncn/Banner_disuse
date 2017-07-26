@@ -192,7 +192,9 @@ public class Banner extends FrameLayout {
     private void switchIndicator() {
         if (mIsIndicatorShow && mLinearLayout != null && mLinearLayout.getChildCount() > 0) {
             for (int i = 0; i < mLinearLayout.getChildCount(); i++) {
-                ((AppCompatImageView) mLinearLayout.getChildAt(i)).setImageDrawable(i == mCurrentIndex % mData.size() ? mIndicatorGainDrawable : mIndicatorMissDrawable);
+                if (mData != null && mData.size() > 0) {
+                    ((AppCompatImageView) mLinearLayout.getChildAt(i)).setImageDrawable(i == mCurrentIndex % mData.size() ? mIndicatorGainDrawable : mIndicatorMissDrawable);
+                }
             }
         }
     }
@@ -217,7 +219,7 @@ public class Banner extends FrameLayout {
     public void setBannerData(List data) {
         setPlaying(false);
         mData.clear();
-        if (data != null) {
+        if (data != null && data.size() > 0) {
             if (data.size() > 1) {
                 mData.addAll(data);
                 mCurrentIndex = mData.size() * 100000;
@@ -227,6 +229,7 @@ public class Banner extends FrameLayout {
                 setPlaying(true);
             } else {
                 mCurrentIndex = 0;
+                mData.addAll(data);
                 mBannerAdapter.notifyDataSetChanged();
             }
         }

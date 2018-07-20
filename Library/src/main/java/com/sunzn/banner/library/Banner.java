@@ -7,12 +7,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -59,7 +61,11 @@ public class Banner extends FrameLayout {
             if (isPlaying) {
                 mRecyclerView.smoothScrollToPosition(++mCurrentIndex);
                 switchIndicator();
-                mHandler.postDelayed(this, mInterval);
+                Log.e("Banner", "Playing = false       Time = " + SystemClock.currentThreadTimeMillis());
+                setPlaying(false);
+                Log.e("Banner", "Playing = true       Time = " + SystemClock.currentThreadTimeMillis());
+                setPlaying(true);
+//                mHandler.postDelayed(this, mInterval);
             }
         }
 
@@ -289,6 +295,7 @@ public class Banner extends FrameLayout {
         if (mHandler != null && !isPlaying && mBannerAdapter.getItemCount() > 1) {
             isPlaying = true;
             mHandler.removeCallbacksAndMessages(null);
+            Log.e("Banner", "playBanner       Time = " + SystemClock.currentThreadTimeMillis());
             mHandler.postDelayed(mBannerTask, mInterval);
         }
     }

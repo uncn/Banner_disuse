@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -61,11 +62,7 @@ public class Banner extends FrameLayout {
             if (isPlaying) {
                 mRecyclerView.smoothScrollToPosition(++mCurrentIndex);
                 switchIndicator();
-                Log.e("Banner", "Playing = false       Time = " + SystemClock.currentThreadTimeMillis());
-                setPlaying(false);
-                Log.e("Banner", "Playing = true       Time = " + SystemClock.currentThreadTimeMillis());
-                setPlaying(true);
-//                mHandler.postDelayed(this, mInterval);
+                mHandler.postDelayed(this, mInterval);
             }
         }
 
@@ -232,7 +229,7 @@ public class Banner extends FrameLayout {
                 mBannerAdapter.notifyDataSetChanged();
                 mRecyclerView.scrollToPosition(mCurrentIndex);
                 createIndicators();
-                setPlaying(true);
+//                setPlaying(true);
             } else {
                 mCurrentIndex = 0;
                 mData.addAll(data);
@@ -243,8 +240,9 @@ public class Banner extends FrameLayout {
 
     private class BannerAdapter extends RecyclerView.Adapter<BannerViewHolder> {
 
+        @NonNull
         @Override
-        public BannerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public BannerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             AppCompatImageView imageView = new AppCompatImageView(parent.getContext());
             RecyclerView.LayoutParams params = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             imageView.setScaleType(AppCompatImageView.ScaleType.CENTER_CROP);
@@ -261,7 +259,7 @@ public class Banner extends FrameLayout {
         }
 
         @Override
-        public void onBindViewHolder(BannerViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull BannerViewHolder holder, int position) {
             if (mOnBannerItemBindListener != null)
                 mOnBannerItemBindListener.onBind(position % mData.size(), mData.get(position % mData.size()), holder.mImageView);
         }
@@ -278,7 +276,7 @@ public class Banner extends FrameLayout {
 
         BannerViewHolder(View itemView) {
             super(itemView);
-            mImageView = (AppCompatImageView) itemView.findViewById(R.id.banner_image_view_id);
+            mImageView = itemView.findViewById(R.id.banner_image_view_id);
         }
 
     }
@@ -295,7 +293,6 @@ public class Banner extends FrameLayout {
         if (mHandler != null && !isPlaying && mBannerAdapter.getItemCount() > 1) {
             isPlaying = true;
             mHandler.removeCallbacksAndMessages(null);
-            Log.e("Banner", "playBanner       Time = " + SystemClock.currentThreadTimeMillis());
             mHandler.postDelayed(mBannerTask, mInterval);
         }
     }

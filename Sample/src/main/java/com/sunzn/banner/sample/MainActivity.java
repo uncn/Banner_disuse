@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        banner = (Banner) findViewById(R.id.banner);
+        banner = findViewById(R.id.banner);
 
         final List<Pack> packs = new ArrayList<>();
         packs.add(new Pack("http://desk.fd.zol-img.com.cn/t_s1024x768c5/g5/M00/0D/01/ChMkJ1gq00WIXw_GAA47r_8gjqgAAXxJAH8qOMADjvH566.jpg"));
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         banner.setOnBannerItemBindListener(new OnBannerItemBindListener() {
             @Override
             public void onBind(int position, Object item, AppCompatImageView view) {
-                Glide.with(getApplicationContext()).load(packs.get(position).getUrl()).placeholder(R.mipmap.ic_launcher).into(view);
+                Glide.with(getApplicationContext()).load(packs.get(position).getUrl()).into(view);
             }
         });
 

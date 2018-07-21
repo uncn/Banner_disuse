@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.AppCompatImageView;
@@ -15,7 +14,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -35,6 +33,8 @@ public class Banner extends FrameLayout {
 
     private static final int DEFAULT_GAIN_COLOR = 0xffffffff;
     private static final int DEFAULT_MISS_COLOR = 0x50ffffff;
+
+    private final Object mLock = new Object();
 
     private RecyclerView mRecyclerView;
     private LinearLayout mLinearLayout;
@@ -60,9 +60,14 @@ public class Banner extends FrameLayout {
         @Override
         public void run() {
             if (isPlaying) {
-                mRecyclerView.smoothScrollToPosition(++mCurrentIndex);
-                switchIndicator();
-                mHandler.postDelayed(this, mInterval);
+                int firstPos = ((BannerLayoutManager) mRecyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+                if (firstPos >= mCurrentIndex) {
+                    mRecyclerView.smoothScrollToPosition(++mCurrentIndex);
+                    switchIndicator();
+                    mHandler.postDelayed(this, mInterval);
+                } else {
+                    mHandler.postDelayed(this, mInterval * 2);
+                }
             }
         }
 
@@ -229,7 +234,7 @@ public class Banner extends FrameLayout {
                 mBannerAdapter.notifyDataSetChanged();
                 mRecyclerView.scrollToPosition(mCurrentIndex);
                 createIndicators();
-//                setPlaying(true);
+                setPlaying(true);
             } else {
                 mCurrentIndex = 0;
                 mData.addAll(data);
@@ -268,6 +273,7 @@ public class Banner extends FrameLayout {
         public int getItemCount() {
             return mData == null ? 0 : mData.size() < 2 ? mData.size() : Integer.MAX_VALUE;
         }
+
     }
 
     private static class BannerViewHolder extends RecyclerView.ViewHolder {
@@ -276,23 +282,25 @@ public class Banner extends FrameLayout {
 
         BannerViewHolder(View itemView) {
             super(itemView);
-            mImageView = itemView.findViewById(R.id.banner_image_view_id);
+            mImageView = (AppCompatImageView) itemView.findViewById(R.id.banner_image_view_id);
         }
 
     }
 
-    public synchronized void setPlaying(boolean playing) {
-        if (playing) {
-            playBanner();
-        } else {
-            stopBanner();
+    public void setPlaying(boolean playing) {
+        synchronized (mLock) {
+            if (playing) {
+                playBanner();
+            } else {
+                stopBanner();
+            }
         }
     }
 
     public void playBanner() {
         if (mHandler != null && !isPlaying && mBannerAdapter.getItemCount() > 1) {
             isPlaying = true;
-            mHandler.removeCallbacksAndMessages(null);
+            mHandler.removeCallbacks(mBannerTask);
             mHandler.postDelayed(mBannerTask, mInterval);
         }
     }
@@ -300,7 +308,7 @@ public class Banner extends FrameLayout {
     public void stopBanner() {
         if (mHandler != null) {
             isPlaying = false;
-            mHandler.removeCallbacksAndMessages(null);
+            mHandler.removeCallbacks(mBannerTask);
         }
     }
 

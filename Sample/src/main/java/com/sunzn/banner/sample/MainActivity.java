@@ -7,15 +7,13 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.sunzn.banner.library.Banner;
-import com.sunzn.banner.library.OnBannerItemBindListener;
-import com.sunzn.banner.library.OnBannerItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Banner banner;
+    private Banner<Pack> banner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,17 +30,16 @@ public class MainActivity extends AppCompatActivity {
         packs.add(new Pack("http://desk.fd.zol-img.com.cn/t_s1024x768c5/g5/M00/0B/04/ChMkJ1bG5kyIcwkXAAsM0s9DJzoAAKsAwJB9ncACwzq207.jpg"));
 
         banner.setBannerData(packs);
-        banner.setOnBannerItemBindListener(new OnBannerItemBindListener() {
+        banner.setOnItemClickListener(new Banner.OnItemClickListener<Pack>() {
             @Override
-            public void onBind(int position, Object item, AppCompatImageView view) {
-                Glide.with(getApplicationContext()).load(packs.get(position).getUrl()).into(view);
+            public void onItemClick(int position, Pack item) {
+                Toast.makeText(MainActivity.this, "position = " + position, Toast.LENGTH_SHORT).show();
             }
         });
-
-        banner.setOnBannerItemClickListener(new OnBannerItemClickListener() {
+        banner.setOnItemBindListener(new Banner.OnItemBindListener<Pack>() {
             @Override
-            public void onClick(int position, Object item) {
-                Toast.makeText(MainActivity.this, "position = " + position, Toast.LENGTH_SHORT).show();
+            public void onItemBind(int position, Pack item, AppCompatImageView view) {
+                Glide.with(getApplicationContext()).load(item.getUrl()).into(view);
             }
         });
     }

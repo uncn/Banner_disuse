@@ -29,7 +29,19 @@ import java.util.List;
  * Created by sunzn on 2017/3/31.
  */
 
-public class Banner extends FrameLayout {
+public class Banner<T> extends FrameLayout {
+
+    public interface OnItemClickListener<T> {
+
+        void onItemClick(int position, T item);
+
+    }
+
+    public interface OnItemBindListener<T> {
+
+        void onItemBind(int position, T item, AppCompatImageView view);
+
+    }
 
     private static final int DEFAULT_GAIN_COLOR = 0xffffffff;
     private static final int DEFAULT_MISS_COLOR = 0x50ffffff;
@@ -45,11 +57,11 @@ public class Banner extends FrameLayout {
 
     private boolean isPlaying, mIsIndicatorShow;
 
-    private List<Object> mData = new ArrayList<>();
+    private List<T> mData = new ArrayList<>();
 
-    private OnBannerItemBindListener mOnBannerItemBindListener;
+    private OnItemBindListener<T> mOnItemBindListener;
 
-    private OnBannerItemClickListener mOnBannerItemClickListener;
+    private OnItemClickListener<T> mOnItemClickListener;
 
     private Drawable mIndicatorGainDrawable, mIndicatorMissDrawable;
 
@@ -224,7 +236,7 @@ public class Banner extends FrameLayout {
         return super.dispatchTouchEvent(ev);
     }
 
-    public void setBannerData(List data) {
+    public void setBannerData(List<T> data) {
         setPlaying(false);
         mData.clear();
         if (data != null && data.size() > 0) {
@@ -256,8 +268,8 @@ public class Banner extends FrameLayout {
             imageView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mOnBannerItemClickListener != null)
-                        mOnBannerItemClickListener.onClick(mCurrentIndex % mData.size(), mData.get(mCurrentIndex % mData.size()));
+                    if (mOnItemClickListener != null)
+                        mOnItemClickListener.onItemClick(mCurrentIndex % mData.size(), mData.get(mCurrentIndex % mData.size()));
                 }
             });
             return new BannerViewHolder(imageView);
@@ -265,8 +277,8 @@ public class Banner extends FrameLayout {
 
         @Override
         public void onBindViewHolder(@NonNull BannerViewHolder holder, int position) {
-            if (mOnBannerItemBindListener != null)
-                mOnBannerItemBindListener.onBind(position % mData.size(), mData.get(position % mData.size()), holder.mImageView);
+            if (mOnItemBindListener != null)
+                mOnItemBindListener.onItemBind(position % mData.size(), mData.get(position % mData.size()), holder.mImageView);
         }
 
         @Override
@@ -312,12 +324,12 @@ public class Banner extends FrameLayout {
         }
     }
 
-    public void setOnBannerItemClickListener(OnBannerItemClickListener listener) {
-        mOnBannerItemClickListener = listener;
+    public void setOnItemClickListener(OnItemClickListener<T> listener) {
+        mOnItemClickListener = listener;
     }
 
-    public void setOnBannerItemBindListener(OnBannerItemBindListener listener) {
-        mOnBannerItemBindListener = listener;
+    public void setOnItemBindListener(OnItemBindListener<T> listener) {
+        mOnItemBindListener = listener;
     }
 
     private int dp2px(int dp) {

@@ -17,6 +17,9 @@ dependencies {
 ```
 
 ### Use
+
+## 1
+
 ```groovy
     <com.sunzn.banner.library.Banner
         android:id="@+id/banner"
@@ -25,6 +28,43 @@ dependencies {
         app:indicator_gravity="right"
         app:indicator_gain="@drawable/svg_indicator_icon_gain"
         app:indicator_miss="@drawable/svg_indicator_icon_miss" />
+```
+
+## 2
+
+```groovy
+    private class Bean {
+
+        String url;
+
+        Bean(String url) {
+            this.url = url;
+        }
+
+        String getUrl() {
+            return url;
+        }
+    }
+```
+
+## 3
+
+```groovy
+    Banner<Bean> banner = banner = findViewById(R.id.banner);
+
+    banner.setBannerData(packs);
+    banner.setOnItemClickListener(new Banner.OnItemClickListener<Bean>() {
+        @Override
+        public void onItemClick(int position, Bean item) {
+            // TODO
+        }
+    });
+    banner.setOnItemBindListener(new Banner.OnItemBindListener<Bean>() {
+        @Override
+        public void onItemBind(int position, Bean item, AppCompatImageView view) {
+            Glide.with(getApplicationContext()).load(item.getUrl()).into(view);
+        }
+    });
 ```
 
 | Attribute         | Describe                               | Additional                                         |

@@ -32,7 +32,7 @@ dependencies {
 
 ### How to use
 
-#### 1 Add Banner view to your layout.
+#### 1. Add Banner view to your layout.
 
 ```groovy
     <com.sunzn.banner.library.Banner
@@ -44,7 +44,7 @@ dependencies {
         app:indicator_miss="@drawable/svg_indicator_icon_miss" />
 ```
 
-#### 2 Create a java bean class.
+#### 2. Create a java bean class.
 
 ```groovy
     private class Bean {
@@ -61,7 +61,7 @@ dependencies {
     }
 ```
 
-#### 3 Set Banner data and set OnItemClickListener, OnItemBindListener.
+#### 3. Set Banner data and set OnItemClickListener, OnItemBindListener.
 
 ```groovy
     Banner<Bean> banner = banner = findViewById(R.id.banner);

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Banner<Pack> banner;
+    private Banner<Bean> banner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,33 +22,33 @@ public class MainActivity extends AppCompatActivity {
 
         banner = findViewById(R.id.banner);
 
-        final List<Pack> packs = new ArrayList<>();
-        packs.add(new Pack("http://desk.fd.zol-img.com.cn/t_s1024x768c5/g5/M00/0D/01/ChMkJ1gq00WIXw_GAA47r_8gjqgAAXxJAH8qOMADjvH566.jpg"));
-        packs.add(new Pack("http://desk.fd.zol-img.com.cn/t_s1024x768c5/g5/M00/0B/0D/ChMkJ1e9jHqIWT4CAA2dKPU9Js8AAUsZgMf8mkADZ1A116.jpg"));
-        packs.add(new Pack("http://desk.fd.zol-img.com.cn/t_s1024x768c5/g5/M00/0B/0D/ChMkJle9jIGIMgtdAAYnBOEz3LAAAUsZwPgFgYABicc437.jpg"));
-        packs.add(new Pack("http://desk.fd.zol-img.com.cn/t_s1024x768c5/g5/M00/0F/0A/ChMkJleZ8-iIBbFBAAVrdxItOlQAAT76QAFx7oABWuP846.jpg"));
-        packs.add(new Pack("http://desk.fd.zol-img.com.cn/t_s1024x768c5/g5/M00/0B/04/ChMkJ1bG5kyIcwkXAAsM0s9DJzoAAKsAwJB9ncACwzq207.jpg"));
+        final List<Bean> packs = new ArrayList<>();
+        packs.add(new Bean("http://desk.fd.zol-img.com.cn/t_s1024x768c5/g5/M00/0D/01/ChMkJ1gq00WIXw_GAA47r_8gjqgAAXxJAH8qOMADjvH566.jpg"));
+        packs.add(new Bean("http://desk.fd.zol-img.com.cn/t_s1024x768c5/g5/M00/0B/0D/ChMkJ1e9jHqIWT4CAA2dKPU9Js8AAUsZgMf8mkADZ1A116.jpg"));
+        packs.add(new Bean("http://desk.fd.zol-img.com.cn/t_s1024x768c5/g5/M00/0B/0D/ChMkJle9jIGIMgtdAAYnBOEz3LAAAUsZwPgFgYABicc437.jpg"));
+        packs.add(new Bean("http://desk.fd.zol-img.com.cn/t_s1024x768c5/g5/M00/0F/0A/ChMkJleZ8-iIBbFBAAVrdxItOlQAAT76QAFx7oABWuP846.jpg"));
+        packs.add(new Bean("http://desk.fd.zol-img.com.cn/t_s1024x768c5/g5/M00/0B/04/ChMkJ1bG5kyIcwkXAAsM0s9DJzoAAKsAwJB9ncACwzq207.jpg"));
 
         banner.setBannerData(packs);
-        banner.setOnItemClickListener(new Banner.OnItemClickListener<Pack>() {
+        banner.setOnItemClickListener(new Banner.OnItemClickListener<Bean>() {
             @Override
-            public void onItemClick(int position, Pack item) {
+            public void onItemClick(int position, Bean item) {
                 Toast.makeText(MainActivity.this, "position = " + position, Toast.LENGTH_SHORT).show();
             }
         });
-        banner.setOnItemBindListener(new Banner.OnItemBindListener<Pack>() {
+        banner.setOnItemBindListener(new Banner.OnItemBindListener<Bean>() {
             @Override
-            public void onItemBind(int position, Pack item, AppCompatImageView view) {
+            public void onItemBind(int position, Bean item, AppCompatImageView view) {
                 Glide.with(getApplicationContext()).load(item.getUrl()).into(view);
             }
         });
     }
 
-    private class Pack {
+    private class Bean {
 
         String url;
 
-        Pack(String url) {
+        Bean(String url) {
             this.url = url;
         }
 

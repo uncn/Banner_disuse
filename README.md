@@ -16,9 +16,23 @@ dependencies {
 }
 ```
 
-### Use
+### Attribute
 
-## 1
+| Attribute         | Describe                               | Additional                                         |
+| ----------------- | -------------------------------------- | -------------------------------------------------- |
+| banner_inch       | Milliseconds per inch                  | The greater the value, the slower the slide        |
+| banner_interval   | Waiting time before next slide         | The greater the value, the longer the wait         |
+| indicator_show    | Whether to display the indicator       | True display, false not displayed                  |
+| indicator_gain    | Indicator drawable when gets the focus | Support color, svg and image reference             |
+| indicator_miss    | Indicator drawable when lost the focus | Support color, svg and image reference             |
+| indicator_size    | Indicator icon size                    | The larger the value, the larger the icon          |
+| indicator_space   | Indicator icon spacing                 | The larger the value, the larger the icon interval |
+| indicator_margin  | Indicator_margin                       | The larger the value, the larger the margin        |
+| indicator_gravity | Indicator_gravity                      | Default center, support left, right                |
+
+### How to use
+
+#### 1 Add Banner view to your layout.
 
 ```groovy
     <com.sunzn.banner.library.Banner
@@ -30,7 +44,7 @@ dependencies {
         app:indicator_miss="@drawable/svg_indicator_icon_miss" />
 ```
 
-## 2
+#### 2 Create a java bean class.
 
 ```groovy
     private class Bean {
@@ -47,7 +61,7 @@ dependencies {
     }
 ```
 
-## 3
+#### 3 Set Banner data and set OnItemClickListener, OnItemBindListener.
 
 ```groovy
     Banner<Bean> banner = banner = findViewById(R.id.banner);
@@ -66,18 +80,6 @@ dependencies {
         }
     });
 ```
-
-| Attribute         | Describe                               | Additional                                         |
-| ----------------- | -------------------------------------- | -------------------------------------------------- |
-| banner_inch       | Milliseconds per inch                  | The greater the value, the slower the slide        |
-| banner_interval   | Waiting time before next slide         | The greater the value, the longer the wait         |
-| indicator_show    | Whether to display the indicator       | True display, false not displayed                  |
-| indicator_gain    | Indicator drawable when gets the focus | Support color, svg and image reference             |
-| indicator_miss    | Indicator drawable when lost the focus | Support color, svg and image reference             |
-| indicator_size    | Indicator icon size                    | The larger the value, the larger the icon          |
-| indicator_space   | Indicator icon spacing                 | The larger the value, the larger the icon interval |
-| indicator_margin  | Indicator_margin                       | The larger the value, the larger the margin        |
-| indicator_gravity | Indicator_gravity                      | Default center, support left, right                |
 
 ### License
 ```

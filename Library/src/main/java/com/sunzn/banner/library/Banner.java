@@ -282,7 +282,7 @@ public class Banner extends FrameLayout {
 
         BannerViewHolder(View itemView) {
             super(itemView);
-            mImageView = (AppCompatImageView) itemView.findViewById(R.id.banner_image_view_id);
+            mImageView = itemView.findViewById(R.id.banner_image_view_id);
         }
 
     }

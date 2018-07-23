@@ -66,7 +66,7 @@ dependencies {
 ```groovy
     Banner<Bean> banner = banner = findViewById(R.id.banner);
 
-    banner.setBannerData(packs);
+    banner.setBannerData(beans);
     banner.setOnItemClickListener(new Banner.OnItemClickListener<Bean>() {
         @Override
         public void onItemClick(int position, Bean item) {

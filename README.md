@@ -64,7 +64,7 @@ dependencies {
 #### 3. Set Banner data and set OnItemClickListener, OnItemBindListener.
 
 ```groovy
-    Banner<Bean> banner = banner = findViewById(R.id.banner);
+    Banner<Bean> banner = findViewById(R.id.banner);
 
     banner.setBannerData(beans);
     banner.setOnItemClickListener(new Banner.OnItemClickListener<Bean>() {

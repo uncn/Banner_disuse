@@ -14,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -30,6 +31,8 @@ import java.util.List;
  */
 
 public class Banner<T> extends FrameLayout {
+
+    private final String TAG = "Banner";
 
     public interface OnItemClickListener<T> {
 
@@ -236,6 +239,36 @@ public class Banner<T> extends FrameLayout {
         return super.dispatchTouchEvent(ev);
     }
 
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        setPlaying(true);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        setPlaying(false);
+    }
+
+    @Override
+    public void onStartTemporaryDetach() {
+        super.onStartTemporaryDetach();
+        setPlaying(false);
+    }
+
+    @Override
+    public void onFinishTemporaryDetach() {
+        super.onFinishTemporaryDetach();
+        setPlaying(true);
+    }
+
+    @Override
+    protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
+        super.onVisibilityChanged(changedView, visibility);
+        setPlaying(visibility == VISIBLE);
+    }
+
     public void setBannerData(List<T> data) {
         setPlaying(false);
         mData.clear();
@@ -314,6 +347,7 @@ public class Banner<T> extends FrameLayout {
             isPlaying = true;
             mHandler.removeCallbacks(mBannerTask);
             mHandler.postDelayed(mBannerTask, mInterval);
+            Log.e(TAG, "Play Banner");
         }
     }
 
@@ -321,6 +355,7 @@ public class Banner<T> extends FrameLayout {
         if (mHandler != null) {
             isPlaying = false;
             mHandler.removeCallbacks(mBannerTask);
+            Log.e(TAG, "Stop Banner");
         }
     }
 

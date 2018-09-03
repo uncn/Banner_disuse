@@ -253,17 +253,17 @@ public class Banner<T> extends FrameLayout {
         Log.e(TAG, "Banner onDetachedFromWindow");
     }
 
-//    @Override
-//    public void onStartTemporaryDetach() {
-//        super.onStartTemporaryDetach();
+    @Override
+    public void onStartTemporaryDetach() {
+        super.onStartTemporaryDetach();
 //        setPlaying(false);
-//    }
-//
-//    @Override
-//    public void onFinishTemporaryDetach() {
-//        super.onFinishTemporaryDetach();
+    }
+
+    @Override
+    public void onFinishTemporaryDetach() {
+        super.onFinishTemporaryDetach();
 //        setPlaying(true);
-//    }
+    }
 
     @Override
     protected void onVisibilityChanged(@NonNull View changedView, int visibility) {

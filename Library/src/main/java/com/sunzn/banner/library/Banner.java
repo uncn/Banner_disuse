@@ -268,7 +268,7 @@ public class Banner<T> extends FrameLayout {
     @Override
     protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
         super.onVisibilityChanged(changedView, visibility);
-        setPlaying(visibility == VISIBLE);
+//        setPlaying(visibility == VISIBLE);
     }
 
     public void setBannerData(List<T> data) {

@@ -1,6 +1,9 @@
 package com.sunzn.banner.library;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.ColorDrawable;
@@ -50,6 +53,8 @@ public class Banner<T> extends FrameLayout {
     private static final int DEFAULT_MISS_COLOR = 0x50ffffff;
 
     private final Object mLock = new Object();
+
+    private boolean mAttached;
 
     private RecyclerView mRecyclerView;
     private LinearLayout mLinearLayout;
@@ -243,6 +248,7 @@ public class Banner<T> extends FrameLayout {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         setPlaying(true);
+        regReceiver();
         Log.e(TAG, "Banner onAttachedToWindow");
     }
 
@@ -250,6 +256,7 @@ public class Banner<T> extends FrameLayout {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         setPlaying(false);
+        unrReceiver();
         Log.e(TAG, "Banner onDetachedFromWindow");
     }
 
@@ -371,6 +378,38 @@ public class Banner<T> extends FrameLayout {
 
     private int dp2px(int dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Resources.getSystem().getDisplayMetrics());
+    }
+
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (Intent.ACTION_USER_PRESENT.equals(action)) {
+                setPlaying(true);
+            } else if (Intent.ACTION_SCREEN_OFF.equals(action)) {
+                setPlaying(false);
+            } else if (Intent.ACTION_SCREEN_ON.equals(action)) {
+                setPlaying(true);
+            }
+        }
+    };
+
+    private void regReceiver() {
+        if (!mAttached) {
+            mAttached = true;
+            IntentFilter filter = new IntentFilter();
+            filter.addAction(Intent.ACTION_SCREEN_ON);
+            filter.addAction(Intent.ACTION_SCREEN_OFF);
+            filter.addAction(Intent.ACTION_USER_PRESENT);
+            getContext().registerReceiver(mReceiver, filter);
+        }
+    }
+
+    private void unrReceiver() {
+        if (mAttached) {
+            getContext().unregisterReceiver(mReceiver);
+            mAttached = false;
+        }
     }
 
 }

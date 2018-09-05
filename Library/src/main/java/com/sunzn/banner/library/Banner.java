@@ -292,7 +292,7 @@ public class Banner<T> extends FrameLayout {
         }
     }
 
-    private void scrollToCurrentPosition() {
+    public void scrollToCurrentPosition() {
         if (mRecyclerView != null) {
             mRecyclerView.scrollToPosition(mCurrentIndex);
             switchIndicator();

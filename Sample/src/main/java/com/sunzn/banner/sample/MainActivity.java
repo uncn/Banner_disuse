@@ -2,7 +2,7 @@ package com.sunzn.banner.sample;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatImageView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         });
         banner.setOnItemBindListener(new Banner.OnItemBindListener<Bean>() {
             @Override
-            public void onItemBind(int position, Bean item, AppCompatImageView view) {
+            public void onItemBind(int position, Bean item, ImageView view) {
                 Glide.with(getApplicationContext()).load(item.getUrl()).into(view);
             }
         });

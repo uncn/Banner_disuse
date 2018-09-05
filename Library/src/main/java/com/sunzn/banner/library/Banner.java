@@ -204,21 +204,27 @@ public class Banner<T> extends FrameLayout {
     }
 
     private void createIndicators() {
-        if (mIsIndicatorShow && mLinearLayout != null) {
-            mLinearLayout.removeAllViews();
-            for (int i = 0; i < (mData == null ? 0 : mData.size()); i++) {
-                AppCompatImageView img = new AppCompatImageView(getContext());
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                lp.leftMargin = mIndicatorSpace / 2;
-                lp.rightMargin = mIndicatorSpace / 2;
-                if (mIndicatorSize >= dp2px(4)) {
-                    lp.width = lp.height = mIndicatorSize;
-                } else {
-                    img.setMinimumWidth(dp2px(2));
-                    img.setMinimumHeight(dp2px(2));
+        if (mLinearLayout != null) {
+            if (mIsIndicatorShow) {
+                mLinearLayout.removeAllViews();
+                mLinearLayout.setVisibility(VISIBLE);
+                for (int i = 0; i < (mData == null ? 0 : mData.size()); i++) {
+                    AppCompatImageView img = new AppCompatImageView(getContext());
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    lp.leftMargin = mIndicatorSpace / 2;
+                    lp.rightMargin = mIndicatorSpace / 2;
+                    if (mIndicatorSize >= dp2px(4)) {
+                        lp.width = lp.height = mIndicatorSize;
+                    } else {
+                        img.setMinimumWidth(dp2px(2));
+                        img.setMinimumHeight(dp2px(2));
+                    }
+                    img.setImageDrawable(i == 0 ? mIndicatorGainDrawable : mIndicatorMissDrawable);
+                    mLinearLayout.addView(img, lp);
                 }
-                img.setImageDrawable(i == 0 ? mIndicatorGainDrawable : mIndicatorMissDrawable);
-                mLinearLayout.addView(img, lp);
+            } else {
+                mLinearLayout.removeAllViews();
+                mLinearLayout.setVisibility(GONE);
             }
         }
     }
@@ -287,7 +293,9 @@ public class Banner<T> extends FrameLayout {
                 mData.clear();
                 mCurrentIndex = 0;
                 mData.addAll(data);
+                mIsIndicatorShow = false;
                 mBannerAdapter.notifyDataSetChanged();
+                createIndicators();
             }
         }
     }

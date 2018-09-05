@@ -253,7 +253,7 @@ public class Banner<T> extends FrameLayout {
                 setPlaying(true);
                 break;
             case MotionEvent.ACTION_CANCEL:
-                Toast.makeText(getContext(),"取消",Toast.LENGTH_SHORT).show();
+                setPlaying(true);
                 break;
         }
         return super.dispatchTouchEvent(ev);

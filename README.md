@@ -75,7 +75,7 @@ dependencies {
     });
     banner.setOnItemBindListener(new Banner.OnItemBindListener<Bean>() {
         @Override
-        public void onItemBind(int position, Bean item, AppCompatImageView view) {
+        public void onItemBind(int position, Bean item, ImageView view) {
             Glide.with(getApplicationContext()).load(item.getUrl()).into(view);
         }
     });

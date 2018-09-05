@@ -164,6 +164,7 @@ public class Banner<T> extends FrameLayout {
         new PagerSnapHelper().attachToRecyclerView(mRecyclerView);
         mBannerAdapter = new BannerAdapter();
         mRecyclerView.setAdapter(mBannerAdapter);
+        mRecyclerView.setOverScrollMode(OVER_SCROLL_NEVER);
         mRecyclerView.setLayoutManager(new BannerLayoutManager(context, LinearLayoutManager.HORIZONTAL, false, mInch));
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -270,12 +271,6 @@ public class Banner<T> extends FrameLayout {
         Log.e(TAG, "Banner onDetachedFromWindow");
         setPlaying(false);
         unrReceiver();
-    }
-
-    @Override
-    protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
-        super.onVisibilityChanged(changedView, visibility);
-//        setPlaying(visibility == VISIBLE);
     }
 
     public void setBannerData(List<T> data) {

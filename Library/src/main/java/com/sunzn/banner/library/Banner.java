@@ -65,6 +65,8 @@ public class Banner<T> extends FrameLayout {
 
     private boolean isPlaying, mIsIndicatorShow;
 
+    IntentFilter mFilter = new IntentFilter();
+
     private List<T> mData = new ArrayList<>();
 
     private OnItemBindListener<T> mOnItemBindListener;
@@ -154,6 +156,10 @@ public class Banner<T> extends FrameLayout {
 
         mRecyclerView = new RecyclerView(context);
         mLinearLayout = new LinearLayout(context);
+
+        mFilter.addAction(Intent.ACTION_SCREEN_ON);
+        mFilter.addAction(Intent.ACTION_SCREEN_OFF);
+        mFilter.addAction(Intent.ACTION_USER_PRESENT);
 
         new PagerSnapHelper().attachToRecyclerView(mRecyclerView);
         mBannerAdapter = new BannerAdapter();
@@ -247,29 +253,17 @@ public class Banner<T> extends FrameLayout {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
+        Log.e(TAG, "Banner onAttachedToWindow");
         setPlaying(true);
         regReceiver();
-        Log.e(TAG, "Banner onAttachedToWindow");
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        Log.e(TAG, "Banner onDetachedFromWindow");
         setPlaying(false);
         unrReceiver();
-        Log.e(TAG, "Banner onDetachedFromWindow");
-    }
-
-    @Override
-    public void onStartTemporaryDetach() {
-        super.onStartTemporaryDetach();
-//        setPlaying(false);
-    }
-
-    @Override
-    public void onFinishTemporaryDetach() {
-        super.onFinishTemporaryDetach();
-//        setPlaying(true);
     }
 
     @Override
@@ -280,9 +274,9 @@ public class Banner<T> extends FrameLayout {
 
     public void setBannerData(List<T> data) {
         setPlaying(false);
-        mData.clear();
         if (data != null && data.size() > 0) {
             if (data.size() > 1) {
+                mData.clear();
                 mData.addAll(data);
                 mCurrentIndex = mData.size() * 100000;
                 mBannerAdapter.notifyDataSetChanged();
@@ -290,11 +284,16 @@ public class Banner<T> extends FrameLayout {
                 createIndicators();
                 setPlaying(true);
             } else {
+                mData.clear();
                 mCurrentIndex = 0;
                 mData.addAll(data);
                 mBannerAdapter.notifyDataSetChanged();
             }
         }
+    }
+
+    private void scrollToPosition() {
+
     }
 
     private class BannerAdapter extends RecyclerView.Adapter<BannerViewHolder> {
@@ -354,6 +353,7 @@ public class Banner<T> extends FrameLayout {
     public void playBanner() {
         if (mHandler != null && !isPlaying && mBannerAdapter.getItemCount() > 1) {
             isPlaying = true;
+            mRecyclerView.scrollToPosition(mCurrentIndex);
             mHandler.removeCallbacks(mBannerTask);
             mHandler.postDelayed(mBannerTask, mInterval);
             Log.e(TAG, "Play Banner");
@@ -397,11 +397,7 @@ public class Banner<T> extends FrameLayout {
     private void regReceiver() {
         if (!mAttached) {
             mAttached = true;
-            IntentFilter filter = new IntentFilter();
-            filter.addAction(Intent.ACTION_SCREEN_ON);
-            filter.addAction(Intent.ACTION_SCREEN_OFF);
-            filter.addAction(Intent.ACTION_USER_PRESENT);
-            getContext().registerReceiver(mReceiver, filter);
+            getContext().registerReceiver(mReceiver, mFilter);
         }
     }
 

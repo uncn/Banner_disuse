@@ -292,8 +292,11 @@ public class Banner<T> extends FrameLayout {
         }
     }
 
-    private void scrollToPosition() {
-
+    private void scrollToCurrentPosition() {
+        if (mRecyclerView != null) {
+            mRecyclerView.scrollToPosition(mCurrentIndex);
+            switchIndicator();
+        }
     }
 
     private class BannerAdapter extends RecyclerView.Adapter<BannerViewHolder> {
@@ -353,7 +356,6 @@ public class Banner<T> extends FrameLayout {
     public void playBanner() {
         if (mHandler != null && !isPlaying && mBannerAdapter.getItemCount() > 1) {
             isPlaying = true;
-            mRecyclerView.scrollToPosition(mCurrentIndex);
             mHandler.removeCallbacks(mBannerTask);
             mHandler.postDelayed(mBannerTask, mInterval);
             Log.e(TAG, "Play Banner");

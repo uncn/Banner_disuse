@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -252,6 +253,7 @@ public class Banner<T> extends FrameLayout {
                 setPlaying(true);
                 break;
             case MotionEvent.ACTION_CANCEL:
+                Toast.makeText(getContext(),"取消",Toast.LENGTH_SHORT).show();
                 break;
         }
         return super.dispatchTouchEvent(ev);
@@ -279,6 +281,7 @@ public class Banner<T> extends FrameLayout {
             if (data.size() > 1) {
                 mData.clear();
                 mData.addAll(data);
+                mIsIndicatorShow = true;
                 mCurrentIndex = mData.size() * 100000;
                 mBannerAdapter.notifyDataSetChanged();
                 mRecyclerView.scrollToPosition(mCurrentIndex);

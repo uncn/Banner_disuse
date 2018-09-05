@@ -24,8 +24,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +46,7 @@ public class Banner<T> extends FrameLayout {
 
     public interface OnItemBindListener<T> {
 
-        void onItemBind(int position, T item, AppCompatImageView view);
+        void onItemBind(int position, T item, ImageView view);
 
     }
 
@@ -310,7 +310,7 @@ public class Banner<T> extends FrameLayout {
         @NonNull
         @Override
         public BannerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            AppCompatImageView imageView = new AppCompatImageView(parent.getContext());
+            ImageView imageView = new ImageView(parent.getContext());
             RecyclerView.LayoutParams params = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             imageView.setScaleType(AppCompatImageView.ScaleType.CENTER_CROP);
             imageView.setId(R.id.banner_image_view_id);
@@ -340,7 +340,7 @@ public class Banner<T> extends FrameLayout {
 
     private static class BannerViewHolder extends RecyclerView.ViewHolder {
 
-        AppCompatImageView mImageView;
+        ImageView mImageView;
 
         BannerViewHolder(View itemView) {
             super(itemView);

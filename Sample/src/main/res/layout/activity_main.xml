@@ -7,7 +7,6 @@
     <com.sunzn.banner.library.Banner
         android:id="@+id/banner"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        app:indicator_gravity="right" />
+        android:layout_height="120dp" />
 
 </LinearLayout>

@@ -1,6 +1,8 @@
 package com.sunzn.banner.sample;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -21,6 +23,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         banner = findViewById(R.id.banner);
+        getLifecycle().addObserver(banner);
+
+        banner.setDefaultGainColor(Color.RED);
+        banner.setIndicatorGravity(GravityCompat.END);
+        banner.setIndicatorMargin(15);
 
         final List<Bean> packs = new ArrayList<>();
         packs.add(new Bean("http://desk.fd.zol-img.com.cn/t_s1024x768c5/g5/M00/0D/01/ChMkJ1gq00WIXw_GAA47r_8gjqgAAXxJAH8qOMADjvH566.jpg"));

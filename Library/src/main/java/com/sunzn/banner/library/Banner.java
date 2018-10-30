@@ -1,5 +1,6 @@
 package com.sunzn.banner.library;
 
+import android.arch.lifecycle.LifecycleOwner;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -23,7 +24,6 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -34,7 +34,7 @@ import java.util.List;
  * Created by sunzn on 2017/3/31.
  */
 
-public class Banner<T> extends FrameLayout {
+public class Banner<T> extends BannerBaseView {
 
     private final String TAG = "Banner";
 
@@ -56,6 +56,9 @@ public class Banner<T> extends FrameLayout {
     private final Object mLock = new Object();
 
     private boolean mAttached;
+
+    private int mIndicatorMargin;
+    private int mIndicatorGravity;
 
     private RecyclerView mRecyclerView;
     private LinearLayout mLinearLayout;
@@ -113,13 +116,13 @@ public class Banner<T> extends FrameLayout {
         TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.Banner);
         Drawable GainDrawable = attributes.getDrawable(R.styleable.Banner_indicator_gain);
         Drawable MissDrawable = attributes.getDrawable(R.styleable.Banner_indicator_miss);
-        int IndicatorGravity = attributes.getInt(R.styleable.Banner_indicator_gravity, 1);
+        mIndicatorGravity = attributes.getInt(R.styleable.Banner_indicator_gravity, 1);
         mIsIndicatorShow = attributes.getBoolean(R.styleable.Banner_indicator_show, true);
         float mInch = attributes.getFloat(R.styleable.Banner_banner_inch, 100f);
         mInterval = attributes.getInt(R.styleable.Banner_banner_interval, 3000);
         mIndicatorSize = attributes.getDimensionPixelSize(R.styleable.Banner_indicator_size, 0);
         mIndicatorSpace = attributes.getDimensionPixelSize(R.styleable.Banner_indicator_space, dp2px(4));
-        int IndicatorMargin = attributes.getDimensionPixelSize(R.styleable.Banner_indicator_margin, dp2px(8));
+        mIndicatorMargin = attributes.getDimensionPixelSize(R.styleable.Banner_indicator_margin, dp2px(8));
 
         if (GainDrawable == null) {
             mIndicatorGainDrawable = getDefaultDrawable(DEFAULT_GAIN_COLOR);
@@ -141,15 +144,15 @@ public class Banner<T> extends FrameLayout {
             }
         }
 
-        switch (IndicatorGravity) {
+        switch (mIndicatorGravity) {
             case 0:
-                IndicatorGravity = GravityCompat.START;
+                mIndicatorGravity = GravityCompat.START;
                 break;
             case 1:
-                IndicatorGravity = Gravity.CENTER;
+                mIndicatorGravity = Gravity.CENTER;
                 break;
             case 2:
-                IndicatorGravity = GravityCompat.END;
+                mIndicatorGravity = GravityCompat.END;
                 break;
         }
 
@@ -169,7 +172,7 @@ public class Banner<T> extends FrameLayout {
         mRecyclerView.setLayoutManager(new BannerLayoutManager(context, LinearLayoutManager.HORIZONTAL, false, mInch));
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     int sPos = ((BannerLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
@@ -184,8 +187,8 @@ public class Banner<T> extends FrameLayout {
 
         LayoutParams recyclerViewParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         LayoutParams linearLayoutParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        linearLayoutParams.gravity = Gravity.BOTTOM | IndicatorGravity;
-        linearLayoutParams.setMargins(IndicatorMargin, IndicatorMargin, IndicatorMargin, IndicatorMargin);
+        linearLayoutParams.gravity = Gravity.BOTTOM | mIndicatorGravity;
+        linearLayoutParams.setMargins(mIndicatorMargin, mIndicatorMargin, mIndicatorMargin, mIndicatorMargin);
         mLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
         mLinearLayout.setGravity(Gravity.CENTER);
 
@@ -203,6 +206,28 @@ public class Banner<T> extends FrameLayout {
         gradient.setCornerRadius(dp2px(6));
         gradient.setColor(color);
         return gradient;
+    }
+
+    public void setDefaultGainColor(int color) {
+        mIndicatorGainDrawable = getDefaultDrawable(color);
+    }
+
+    public void setDefaultMissColor(int color) {
+        mIndicatorMissDrawable = getDefaultDrawable(color);
+    }
+
+    public void setIndicatorGravity(int gravity) {
+        mIndicatorGravity = gravity;
+        LayoutParams params = (LayoutParams) mLinearLayout.getLayoutParams();
+        params.gravity = Gravity.BOTTOM | mIndicatorGravity;
+        mLinearLayout.setLayoutParams(params);
+    }
+
+    public void setIndicatorMargin(int margin) {
+        mIndicatorMargin = dp2px(margin);
+        LayoutParams params = (LayoutParams) mLinearLayout.getLayoutParams();
+        params.setMargins(mIndicatorMargin, mIndicatorMargin, mIndicatorMargin, mIndicatorMargin);
+        mLinearLayout.setLayoutParams(params);
     }
 
     private void createIndicators() {
@@ -273,6 +298,18 @@ public class Banner<T> extends FrameLayout {
         Log.e(TAG, "Banner onDetachedFromWindow");
         setPlaying(false);
         unrReceiver();
+    }
+
+    @Override
+    public void onResume(@NonNull LifecycleOwner owner) {
+        super.onResume(owner);
+        setPlaying(true);
+    }
+
+    @Override
+    public void onPause(@NonNull LifecycleOwner owner) {
+        super.onPause(owner);
+        setPlaying(false);
     }
 
     public void setBannerData(List<T> data) {

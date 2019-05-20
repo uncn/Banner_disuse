@@ -44,6 +44,12 @@ public class Banner<T> extends BannerBaseView {
 
     }
 
+    public interface OnItemPickListener<T> {
+
+        void onItemPick(int position, T item);
+
+    }
+
     public interface OnItemBindListener<T> {
 
         void onItemBind(int position, T item, ImageView view);
@@ -72,6 +78,8 @@ public class Banner<T> extends BannerBaseView {
     IntentFilter mFilter = new IntentFilter();
 
     private List<T> mData = new ArrayList<>();
+
+    private OnItemPickListener<T> mOnItemPickListener;
 
     private OnItemBindListener<T> mOnItemBindListener;
 
@@ -257,11 +265,17 @@ public class Banner<T> extends BannerBaseView {
     }
 
     private void switchIndicator() {
-        if (mIsIndicatorShow && mLinearLayout != null && mLinearLayout.getChildCount() > 0) {
-            for (int i = 0; i < mLinearLayout.getChildCount(); i++) {
-                if (mData != null && mData.size() > 0) {
-                    ((AppCompatImageView) mLinearLayout.getChildAt(i)).setImageDrawable(i == mCurrentIndex % mData.size() ? mIndicatorGainDrawable : mIndicatorMissDrawable);
+        if (mData != null && mData.size() > 0) {
+            int position = mCurrentIndex % mData.size();
+
+            if (mIsIndicatorShow && mLinearLayout != null && mLinearLayout.getChildCount() > 0) {
+                for (int i = 0; i < mLinearLayout.getChildCount(); i++) {
+                    ((AppCompatImageView) mLinearLayout.getChildAt(i)).setImageDrawable(i == position ? mIndicatorGainDrawable : mIndicatorMissDrawable);
                 }
+            }
+
+            if (mOnItemPickListener != null) {
+                mOnItemPickListener.onItemPick(position, mData.get(position));
             }
         }
     }
@@ -415,6 +429,10 @@ public class Banner<T> extends BannerBaseView {
 
     public void setOnItemClickListener(OnItemClickListener<T> listener) {
         mOnItemClickListener = listener;
+    }
+
+    public void setOnItemPickListener(OnItemPickListener<T> listener) {
+        mOnItemPickListener = listener;
     }
 
     public void setOnItemBindListener(OnItemBindListener<T> listener) {

@@ -5,6 +5,7 @@
         <attr name="banner_inch" format="float" />
         <attr name="banner_interval" format="integer" />
         <attr name="indicator_show" format="boolean" />
+        <attr name="nested_enabled" format="boolean" />
         <attr name="indicator_gain" format="color|reference" />
         <attr name="indicator_miss" format="color|reference" />
         <attr name="indicator_size" format="dimension|reference" />

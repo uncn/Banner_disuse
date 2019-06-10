@@ -73,7 +73,7 @@ public class Banner<T> extends BannerBaseView {
 
     private Handler mHandler = new Handler();
 
-    private boolean isPlaying, mIsIndicatorShow;
+    private boolean isPlaying, mIsIndicatorShow, mNestedEnabled;
 
     IntentFilter mFilter = new IntentFilter();
 
@@ -126,6 +126,7 @@ public class Banner<T> extends BannerBaseView {
         Drawable MissDrawable = attributes.getDrawable(R.styleable.Banner_indicator_miss);
         mIndicatorGravity = attributes.getInt(R.styleable.Banner_indicator_gravity, 1);
         mIsIndicatorShow = attributes.getBoolean(R.styleable.Banner_indicator_show, true);
+        mNestedEnabled = attributes.getBoolean(R.styleable.Banner_nested_enabled, true);
         float mInch = attributes.getFloat(R.styleable.Banner_banner_inch, 100f);
         mInterval = attributes.getInt(R.styleable.Banner_banner_interval, 3000);
         mIndicatorSize = attributes.getDimensionPixelSize(R.styleable.Banner_indicator_size, 0);
@@ -177,6 +178,7 @@ public class Banner<T> extends BannerBaseView {
         mBannerAdapter = new BannerAdapter();
         mRecyclerView.setAdapter(mBannerAdapter);
         mRecyclerView.setOverScrollMode(OVER_SCROLL_NEVER);
+        mRecyclerView.setNestedScrollingEnabled(mNestedEnabled);
         mRecyclerView.setLayoutManager(new BannerLayoutManager(context, LinearLayoutManager.HORIZONTAL, false, mInch));
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
